@@ -1,5 +1,4 @@
-require('dotenv').config();
-const nodemailer = require("nodemailer");
+const transporter = require('../config/mailconfig');
 
 const sendEmail = async (req, res) => {
     try {
@@ -11,16 +10,6 @@ const sendEmail = async (req, res) => {
             });
         }
 
-        const config = {
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        };
-     
-        const transporter = nodemailer.createTransport(config);
-    
         const message = {
             from: process.env.EMAIL_USER,
             to: userEmail,
@@ -40,7 +29,7 @@ const sendEmail = async (req, res) => {
                 </div>
             `
         };
-    
+
         await transporter.sendMail(message);
         
         res.status(200).json({
